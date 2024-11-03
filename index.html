@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autism Prediction</title>
+    <style>
+        .scroll-box {
+                width: 1500px;
+                height: 30px;
+                border: 1px solid #ccc;
+                overflow: hidden;
+                position: relative;
+                background-color:white;
+        }
+            
+        .scrolling-text {
+                white-space: nowrap;
+                position: absolute;
+                animation: marquee 30s linear infinite;
+                font-size:
+        }
+            
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-image: url('static/image4.jpeg'); /* Path to your background image */
+            background-size: cover; /* Cover the entire page */
+            background-repeat: no-repeat; /* Prevent background from repeating */
+            background-attachment: fixed; /* Fix the background image */
+        }
+        .slideshow-container {
+            max-width: 1000px;
+            position: relative;
+            margin: auto;
+        }
+        .mySlides {
+            display: none;
+        }
+        .fade {
+            animation-name: fade;
+            animation-duration: 1.5s;
+        }
+        @keyframes fade {
+            from {opacity: .4}
+            to {opacity: 1}
+        }
+        .dot {
+            height: 15px;
+            width: 15px;
+            margin: 0 2px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.6s ease;
+        }
+        .active {
+            background-color: #717171;
+        }
+        #input-container {
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.8); /* Add a semi-transparent white background for better readability */
+            padding: 20px;
+            border-radius: 10px;
+        }
+        #result-container {
+            display: none;
+        }
+        .button-link {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            color: white;
+            background-color: blue;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .button-link:hover {
+            background-color: darkblue;
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-box">
+    <marquee direction="right" behavior="scroll" scrollamount="6">
+            <b>Prediction of Autism Spectrum Disorder!!</b>  
+    </marquee>
+        </div>
+        
+
+    <div class="slideshow-container">
+        <div class="mySlides fade">
+            <img src="{{ url_for('static', filename='image2.jpg') }}" style="width:100%">
+        </div>
+        <div class="mySlides fade">
+            <img src="{{ url_for('static', filename='image3.jpg') }}" style="width:100%">
+        </div>
+        <div class="mySlides fade">
+            <img src="{{ url_for('static', filename='image5.jpg') }}" style="width:100%">
+        </div>
+        <div class="mySlides fade">
+            <img src="{{ url_for('static', filename='image1.jpg') }}" style="width:100%">
+        </div>
+    </div>
+    <br>
+    <div style="text-align:center">
+        <span class="dot"></span> 
+        <span class="dot"></span> 
+        <span class="dot"></span> 
+    </div>
+
+    <script>
+        let slideIndex = 0;
+        showSlides();
+        
+        function showSlides() {
+            let i;
+            let slides = document.getElementsByClassName("mySlides");
+            let dots = document.getElementsByClassName("dot");
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";  
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) {slideIndex = 1}    
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex-1].style.display = "block";  
+            dots[slideIndex-1].className += " active";
+            setTimeout(showSlides, 2000); // Change image every 2 seconds
+        }
+    </script>
+
+    <form action="{{ url_for('predict') }}" method="post">
+        <div id="input-container">
+            <p>Enter the following information:</p><br>
+            <label for="A1">Does your child make eye contact with others?</label>
+            <select id="A1" name="A1" required>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select><br><br>
+            <label for="A2">Does your child have unusual reactions to sensory stimuli (e.g., being overly sensitive to sounds, lights, textures)?</label>
+            <select id="A2" name="A2" required>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select><br><br>
+            <label for="A3">Does your child have repetitive behaviors (e.g., hand clapping, screaming)?</label>
+            <select id="A3" name="A3" required>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select><br><br>
+            <label for="A4">Did your child reach typical developmental milestones (e.g., babbling, pointing, walking) within expected timeframes?</label>
+            <select id="A4" name="A4" required>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select><br><br>
+            <label for="A5">Does your child maintain the neck posture straight or not?</label>
+            <select id="A5" name="A5" required>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select><br><br>
+            <label for="A6">Were there any complications during pregnancy or birth?</label>
+            <select id="A6" name="A6" required>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select><br><br>
+            <label for="A7">Do your child follow regular bedtime routine?</label>
+            <select id="A7" name="A7" required>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select><br><br>
+            <label for="A8">Does your child stammer while having conversation?</label>
+            <select id="A8" name="A8" required>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select><br><br>
+            <label for="A9">Does your child use gestures appropriately?</label>
+            <select id="A9" name="A9" required>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select><br><br>
+            <label for="A10">Does anyone possess autism in child's family?</label>
+            <select id="A10" name="A10" required>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select><br><br>
+            <label for="AGE_MONS">AGE:</label>
+            <select id="AGE_MONS" name="AGE_MONS" required>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+            </select><br><br>
+            <label for="QCHAT_10_SCORE">QCHAT_10_SCORE:</label>
+            <select id="QCHAT_10_SCORE" name="QCHAT_10_SCORE" required>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select><br><br>
+            <label for="SEX">SEX:</label>
+            <select id="SEX" name="SEX" required>
+                <option value="0">Male</option>
+                <option value="1">Female</option>
+            </select><br><br>
+            <label for="ETHNICITY">ETHNICITY:</label>
+            <select id="ETHNICITY" name="ETHNICITY" required>
+                <option value="South Asian">South Asian</option>
+                <option value="Middle Eastern">Middle Eastern</option>
+                <option value="White European">White European</option>
+                <option value="Hispanic">Hispanic</option>
+                <option value="Native Indian">Native Indian</option>
+                <option value="Others">Others</option>
+            </select><br><br>
+            <label for="JAUNDICE">JAUNDICE:</label>
+            <select id="JAUNDICE" name="JAUNDICE" required>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select><br><br>
+            <label for="FAMILY_MEM_WITH_ASD">FAMILY MEMBER WITH ASD:</label>
+            <select id="FAMILY_MEM_WITH_ASD" name="FAMILY_MEM_WITH_ASD" required>
+                <option value="0">No</option>
+                <option value="1">Yes</option>
+            </select><br><br>
+            <label for="WHO_COMPLETED_THE_TEST">WHO COMPLETED THE TEST:</label>
+            <select id="WHO_COMPLETED_THE _TEST" name="WHO_COMPLETED_THE_TEST" required>
+                <option value="Parent">Parent</option>
+                <option value="Guardian">Guardian</option>
+            </select><br><br>
+        </div>
+        <button type="submit" class="button-link">Predict</button>
+    </form>
+</body>
+</html>
+
+
